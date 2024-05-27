@@ -477,7 +477,7 @@ window.FarmGod.Main = (function (Library, Translation) {
                     <td style="text-align:center;"><a href="${game_data.link_base_pure}info_village&id=${val.origin.id}">${val.origin.name} (${val.origin.coord})</a></td>
                     <td style="text-align:center;"><a href="${game_data.link_base_pure}info_village&id=${val.target.id}">${val.target.coord}</a></td>
                     <td style="text-align:center;">${val.fields.toFixed(2)}</td>
-                    <td style="text-align:center;"><a id="btn_farm" href="#" data-origin="${val.origin.id}" data-target="${val.target.id}" data-template="${val.template.id}" class="farmGod_icon farm_icon farm_icon_${val.template.name}" style="margin:auto;"></a></td>
+                    <td style="text-align:center;"><a id="btn-farm" href="#" data-origin="${val.origin.id}" data-target="${val.target.id}" data-template="${val.template.id}" class="farmGod_icon farm_icon farm_icon_${val.template.name}" style="margin:auto;"></a></td>
                   </tr>`;
         });
       }
