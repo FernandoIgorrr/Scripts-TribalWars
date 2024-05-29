@@ -2,6 +2,7 @@
 // @name     Auto-saques
 // @version  1
 // @grant    none
+// @include  https://*screen=am_farm*
 // ==/UserScript==
 
 var units_home = document.querySelector("#units_home")
@@ -9,11 +10,15 @@ var units_tbodies = units_home.tBodies
 
 var tr2 = document.createElement("tr");
 var tr3 = document.createElement("tr");
+var tr4 = document.createElement("tr");
+
 
 var td1 = document.createElement("td");
 var td2 = document.createElement("td");
 
 var td11 = document.createElement("td");
+var td22 = document.createElement("td");
+
 
 td1.id = "full-farm-a-button";
 td1.align = "center";
@@ -26,12 +31,16 @@ td11.id = "quebra-muralha";
 td11.align = "center";
 td11.colSpan = 8;
 
+td22.id = "farm-god-auto-td";
+td22.align = "center";
+td22.colSpan = 8;
+
 var inputButtonA = document.createElement("input");
   inputButtonA.id = "full-farm-a";
   inputButtonA.type = "button";
   inputButtonA.className = "btn";
   inputButtonA.value = "Full farm A";
-  inputButtonA.addEventListener('click', autoFarmA);
+  inputButtonA.addEventListener('click', autoFarmAdiff);
 
 var inputButtonB = document.createElement("input");
   inputButtonB.id = "full-farm-b";
@@ -47,21 +56,87 @@ var inputButtonQM = document.createElement("input");
   inputButtonQM.value = "Qubra Muralha";
   inputButtonQM.addEventListener('click', quebraMuralha);
 
+var inputButtonFD = document.createElement("input");
+	inputButtonFD.id = "farm-god-auto";
+	inputButtonFD.type = "button";
+	inputButtonFD.className = "btn";
+	inputButtonFD.value = "Farm God";
+	inputButtonFD.addEventListener('click', farmGod);
+
 
 td1.appendChild(inputButtonA);
 td2.appendChild(inputButtonB);
 
 td11.appendChild(inputButtonQM);
+td22.appendChild(inputButtonFD);
 
 tr2.appendChild(td1);
 tr2.appendChild(td2);
 
 tr3.appendChild(td11);
+tr4.appendChild(td22);
 
 units_tbodies[0].appendChild(tr2);
 units_tbodies[0].appendChild(tr3);
+units_tbodies[0].appendChild(tr4);
 
+function farmGod() {
 
+  const clickButton = () => {
+    	
+    let button = document.querySelector("#btn-farm");
+    
+     if (button) {
+          button.click();
+      } else {
+          clearInterval(interval);
+          console.log("Todos os botões foram clicados.");
+      }
+  };
+
+  const interval = setInterval(clickButton, 333);
+}
+
+function autoFarmAdiff() {
+  
+  
+    var buttons = document.querySelectorAll(".farm_icon.farm_icon_a:not(.decoration)");
+    let index = 0;
+
+	  var lights_values = document.querySelectorAll('input[name^="light["]');
+		var lights_value_a = lights_values[0].value;
+		console.log("VALOR DE A: " + lights_value_a)
+
+    const clickButton = () => {
+        if (index < buttons.length) {
+            let num_lights = Number(document.querySelector(".unit-item.unit-item-light").innerText)
+            console.log("NUMERO ATUAL DE TROPAS: " + num_lights)
+
+            if(num_lights < lights_value_a){
+              index = buttons.length
+              console.log("ACABOU AS TROPAS");
+              clearInterval(interval);
+            }
+            buttons[index].click();
+            index++;
+        } else {
+          	
+          	buttons = document.querySelectorAll(".farm_icon.farm_icon_a:not(.decoration)");
+
+        		if(buttons){
+            	index = 0;
+            }
+         	 	else{
+            	clearInterval(interval);
+            	console.log("Todos os botões foram clicados.");
+          }
+        }
+    };
+
+    const interval = setInterval(clickButton, 333);
+		
+ 
+}
 
 function autoFarmA() {
 
@@ -138,11 +213,7 @@ function quebraMuralha(){
     let tdWithImage = tr.querySelector("td img[data-title='Perdas']");
     return tdWithImage !== null;
 	});
-  console.log("VAI CHAMAR????")
-  // Inicia o processo de clicar nos links com intervalo
   clickWithDelay(0,trsWithImage);
-    console.log("CHAMOU !!!!")
-
 }
 
 function clickWithDelay(index,trsWithImage) {
